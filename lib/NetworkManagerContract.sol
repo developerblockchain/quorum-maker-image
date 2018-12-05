@@ -1,12 +1,12 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.5.0;
 contract NetworkManagerContract {
 
     uint nodeCounter;
-  
+
     struct NodeDetails {
-  
+
         string nodeName;
-        string role; 
+        string role;
         string publickey;
         string enode;
 	string ip;
@@ -14,10 +14,10 @@ contract NetworkManagerContract {
 
     mapping (string => NodeDetails)nodes;
     string[] enodeList;
-    
+
     event print(string nodeName, string role,string publickey, string enode, string ip);
 
-    function registerNode(string n, string r, string p,string e, string ip) public {
+    function registerNode(string memory n, string memory r,  string memory p, string memory e,  string memory ip) public {
 
         nodes[e].publickey = p;
         nodes[e].nodeName = n;
@@ -25,10 +25,10 @@ contract NetworkManagerContract {
 	nodes[e].ip = ip;
         enodeList.push(e);
         emit print(n,r,p,e,ip);
-    
+
     }
-   
-    function getNodeDetails(uint _index) constant public returns (string n, string r,string p,string ip,string e,uint i) {
+
+    function getNodeDetails(uint _index) view public returns (string memory n, string memory r,string memory p,string memory ip,string memory e,uint i) {
         NodeDetails memory nodeInfo = nodes[enodeList[_index]];
         return (
                 nodeInfo.nodeName,
@@ -40,11 +40,11 @@ contract NetworkManagerContract {
         );
     }
 
-    function getNodesCounter() public constant  returns (uint) {
+    function getNodesCounter() public view  returns (uint) {
         return enodeList.length;
     }
 
-    function updateNode(string n, string r, string p, string e, string ip) public {
+    function updateNode(string memory n, string memory r, string memory p, string memory e, string memory ip) public {
 
         nodes[e].publickey = p;
         nodes[e].nodeName = n;
@@ -53,8 +53,8 @@ contract NetworkManagerContract {
         emit print(n,r,p,e,ip);
     }
 
-    function getNodeList(uint i)  public  constant   returns (string n, string r,string p,string ip,string e) {
-        
+    function getNodeList(uint i)  public  view   returns (string memory  n, string memory r,string memory p,string memory ip,string memory e) {
+
         NodeDetails memory nodeInfo = nodes[enodeList[i]];
         return (
             nodeInfo.nodeName,
@@ -63,7 +63,7 @@ contract NetworkManagerContract {
 	    nodeInfo.ip,
             enodeList[i]
         );
-        
+
     }
 
 }
